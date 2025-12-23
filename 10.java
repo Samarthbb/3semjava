@@ -1,95 +1,71 @@
-importjava.util.LinkedList; 
-public class Threadexample { 
-public static void main(String[] args) 
-throwsInterruptedException
-    { 
-final PC pc = new PC(); 
+import java.util.LinkedList;
 
-        Thread t1 = new Thread(new Runnable() { 
+public class Threadexample {
+    public static void main(String[] args) throws InterruptedException {
+        final PC pc = new PC();
+
+        Thread t1 = new Thread(new Runnable() {
             @Override
-public void run() 
-            { 
-try { 
-pc.produce(); 
-                } 
-catch (InterruptedException e) { 
-e.printStackTrace(); 
-                } 
-            } 
-        }); 
+            public void run() {
+                try {
+                    pc.produce();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-
-        Thread t2 = new Thread(new Runnable() { 
+        Thread t2 = new Thread(new Runnable() {
             @Override
-public void run() 
-            { 
-try { 
-pc.consume(); 
-                } 
-catch (InterruptedException e) { 
-e.printStackTrace(); 
-                } 
-            } 
-        }); 
+            public void run() {
+                try {
+                    pc.consume();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
-        
-t1.start(); 
-t2.start(); 
+        t1.start();
+        t2.start();
 
-       
-t1.join(); 
-t2.join(); 
-    } 
+        t1.join();
+        t2.join();
+    }
 
-public static class PC { 
+    public static class PC {
+        LinkedList<Integer> list = new LinkedList<>();
+        int capacity = 2;
 
-LinkedList<Integer> list = new LinkedList<>(); 
-int capacity = 2; 
+        public void produce() throws InterruptedException {
+            int value = 0;
+            while (true) {
+                synchronized (this) {
+                    while (list.size() == capacity)
+                        wait();
 
-        
-public void produce() throws InterruptedException
-        { 
-int value = 0; 
-while (true) { 
-synchronized (this) 
-                { 
-                    
-while (list.size() == capacity) 
-wait(); 
+                    System.out.println("Producer produced-" + value);
+                    list.add(value++);
 
-System.out.println("Producer produced-"
-                                       + value); 
+                    notify();
+                    Thread.sleep(1000);
+                }
+            }
+        }
 
-                    
-list.add(value++); 
+        public void consume() throws InterruptedException {
+            while (true) {
+                synchronized (this) {
+                    while (list.size() == 0)
+                        wait();
 
-notify(); 
+                    int val = list.removeFirst();
+                    System.out.println("Consumer consumed-" + val);
 
-Thread.sleep(1000); 
-                } 
-            } 
-        } 
-
-public void consume() throws InterruptedException
-        { 
-while (true) { 
-synchronized (this) 
-                { 
-                    
-while (list.size() == 0) 
-wait(); 
-
-intval = list.removeFirst(); 
-
-System.out.println("Consumer consumed-"
-                                       + val); 
-
-                   
-notify(); 
- 
-Thread.sleep(1000); 
-                } 
-            } 
-        } 
-    } 
+                    notify();
+                    Thread.sleep(1000);
+                }
+            }
+        }
+    }
 }
