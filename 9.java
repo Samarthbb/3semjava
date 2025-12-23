@@ -1,4 +1,4 @@
-classFrst implements Runnable
+class Frst implements Runnable
 {
 Thread t;
 Frst()
@@ -9,7 +9,7 @@ t.start();
 }
 public void run()
 {
-for(inti=0;i<10;i++)
+for(int i=0;i<10;i++)
 {
 System.out.println("Good Morning"+i);
 try{
@@ -32,7 +32,7 @@ t.start();
 }
 public void run()
 {
-for(inti=0;i<10;i++)
+for(int i=0;i<10;i++)
 {
 System.out.println("hello"+i);
 try{
@@ -56,7 +56,7 @@ t.start();
 }
 public void run()
 {
-for(inti=0;i<10;i++)
+for(int i=0;i<10;i++)
 {
 System.out.println("welcome"+i);
 try{
@@ -73,9 +73,10 @@ public class Multithread
 {
 public static void main(String arg[])
 {
-newFrst();
+new Frst();
 new sec();
 new third();
 }
 }
+
 
