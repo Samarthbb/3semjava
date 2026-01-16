@@ -1,16 +1,16 @@
 Class name
 {
 String name=”swathi”;
-Int age = 20;
+int age = 20;
 }
 Class Mark extends Name
 {
-Int m1=30,m2=30,m3=30;
+int m1=30,m2=30,m3=30;
 }
 Class Student extends Mark
 {
-Int total;
-Void calc(_
+int total;
+Void calc()
 {
 Total=m1+m2+m3;
 }
@@ -63,4 +63,5 @@ public class Main {
 		g.m1("A");
 	}
 }
+
 
